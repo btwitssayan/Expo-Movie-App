@@ -10,11 +10,14 @@ This project is built using **Expo** and **React Native**, leveraging the **TMDB
 This app allows users to:
 
 * Browse trending and popular movies
+* Search movies in real time using TMDB
+* Store **search queries and interactions** in Appwrite
+* Generate **Trending Movies based on real user search counts**
 * View detailed movie information (ratings, overview, posters)
 * Save movies for later viewing (favorites/watchlist)
 * Experience smooth navigation using file-based routing
 
-The project was bootstrapped with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app) and follows Expo best practices.
+Search analytics are persisted in **Appwrite**, enabling data-driven trending sections instead of static TMDB lists.
 
 ---
 
@@ -24,6 +27,7 @@ The project was bootstrapped with [`create-expo-app`](https://www.npmjs.com/pack
 * **React Native** – Mobile UI framework
 * **Expo Router** – File-based navigation
 * **TMDB API** – Movie data source
+* **Appwrite** – Backend-as-a-Service (search analytics & trending logic)
 * **TypeScript** – Type safety and maintainability
 
 ---
@@ -55,10 +59,19 @@ Once started, you can run the app using:
 
 ```bash
 app/
- ├── (tabs)/        # Tab-based navigation
- ├── movie/         # Movie detail screens
- ├── index.tsx      # Home screen
- └── _layout.tsx    # App layout
+ ├── (tabs)/              # Tab-based navigation
+ ├── movie/               # Movie detail screens
+ ├── search/              # Search & results
+ ├── trending/            # Trending based on Appwrite analytics
+ ├── index.tsx            # Home screen
+ └── _layout.tsx          # App layout
+```
+
+services/
+
+```bash
+ ├── tmdb.ts              # TMDB API handlers
+ ├── appwrite.ts          # Appwrite client & DB helpers
 ```
 
 This project uses **file-based routing**, meaning routes are automatically generated from the `app/` directory.
@@ -71,11 +84,29 @@ This project uses **file-based routing**, meaning routes are automatically gener
 
 Create a `.env` file in the root directory and add:
 
+````env
+EXPO_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
+EXPO_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+EXPO_PUBLIC_APPWRITE_PROJECT_ID=your_project_id
+EXPO_PUBLIC_APPWRITE_DATABASE_ID=your_database_id
+EXPO_PUBLIC_APPWRITE_SEARCH_COLLECTION_ID=your_search_collection_id
 ```env
 EXPO_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
-```
+````
 
 > ⚠️ Never commit your API keys to version control.
+
+---
+
+## 📊 Trending Logic (Appwrite)
+
+Trending movies are calculated dynamically using **Appwrite search analytics**:
+
+* Each search query is stored in Appwrite
+* Movie IDs increment a `searchCount`
+* Top searched movies are fetched, sorted, and displayed as **Trending**
+
+This ensures trending results reflect **real user behavior**, not static popularity lists.
 
 ---
 
