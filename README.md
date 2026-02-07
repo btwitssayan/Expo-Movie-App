@@ -125,6 +125,12 @@ This will:
 
 ---
 
+## 🎥 Video Demo
+
+You can showcase the app experience using a **video or GIF demo**. Recommended options:
+
+https://github.com/user-attachments/assets/66d25dcb-21ca-459d-8b59-171d9c50ae5b
+
 ## 📚 Learn More
 
 * 📘 [Expo Documentation](https://docs.expo.dev/)
